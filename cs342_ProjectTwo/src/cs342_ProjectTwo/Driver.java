@@ -54,19 +54,27 @@ public class Driver {
 
 	public void doStuff() {
 		
+		System.out.println("Welcome to the Sieve of Eratosthenes.");
+		
+		
 		UI userInterface = new UI();
-		ArrayQueue queue = new ArrayQueue();
+		User user = new User(userInterface.promptForNumber());
+		Sieve sieve = new Sieve(user.getMAX_NUMBER());
+		System.out.println("Number Bank: ");
+		System.out.println(sieve.getNumberBank());
 		
-		//userInterface.promptForNumber();
-		System.out.println("i:");
-		for(int i = 0; i < 45; i++) {
-			
-			System.out.println(i + "");
-			queue.add(i);
-		}
 		
-		System.out.println(queue);
+		sieve.sieveOfEratosthenes(user.getMAX_NUMBER());
 		
+		System.out.println("Number Bank: ");
+
+		System.out.println(sieve.getNumberBank());
+		
+		System.out.println("\nPrime numbers up to " + user.getMAX_NUMBER() + ": ");
+		sieve.transferPrime();
+		System.out.println(userInterface.displayArrayQueue(sieve.getPrimeBank()));
+
+	
 		
 		
 	}

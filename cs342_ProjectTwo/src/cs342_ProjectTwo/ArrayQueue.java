@@ -16,6 +16,7 @@ public class ArrayQueue {
 	private int count;
 	private int head;
 	private int tail;
+	//private int ghostSlots;
 	
 ///////////////////////////////////////////////////////////////////
 /// ArrayQueue ///
@@ -47,9 +48,13 @@ public class ArrayQueue {
 		//add data to the tail of the queue
 		queue[tail] = data;
 		tail++;//tail increments as the location of the tail has shifted
+		
+		
 		if (tail == queue.length) {//if the tail has hit the maximum of the queue, loop back around.
 			tail = 0;
 		}
+		
+		
 		count++;//increment count because there is now another data value
 		return true;//return true if data has been added successfully
 	}
@@ -64,13 +69,16 @@ public class ArrayQueue {
 		
 		int[] temp = new int [queue.length + GROWTH_INCREMENT];
 		
-		for(int i = 0; i < count; i++) {
+		for(int i = 0; i < queue.length; i++) {
 			temp[i] = queue[i];
+
+			
 		}
+		
+		
 		
 		queue = temp;
 		
-
 		
 		
 		System.out.println("New queue size is: " + queue.length);
@@ -105,10 +113,53 @@ public class ArrayQueue {
 		if (head == queue.length) {//if head has reached the limit then wrap back around
 			head = 0;
 		}
+		//ghostSlots++;
 		count--;//subtract one from count because one less data
 		
 		return rtn;//return the data that we eliminated
 	}
+///////////////////////////////////////////////////////////////////
+/// dataAt ///
+/// Input : None ///
+/// Output: int ///
+/// returns data in a specific slot///
+/// 
+/// ///
+///////////////////////////////////////////////////////////////////	
+	public int dataAt(int slot) {
+		
+		int rtn = 0;
+		
+		if (count == 0 || slot >= count || slot < 0) {
+			return -1;
+		} else {
+			
+			int n = head;
+			int c = count;
+			//go through the array starting form the head and ending at count
+			while(slot > -1) {
+
+				///print the contents of each slot into a new line
+				rtn = queue[n];
+				n++;
+				//if we reach the end of the array then go back to the beginning of the array
+				//(queues can loop around sometimes)
+				if (n == queue.length) {
+					n = 0;
+				}
+				
+				slot--;
+			}
+			
+			
+		}
+		
+		
+		
+		
+		return rtn;
+	}
+
 
 ///////////////////////////////////////////////////////////////////
 /// clear ///
@@ -122,6 +173,7 @@ public class ArrayQueue {
 		//initialize a new queue with 0 data
 		queue = new int[QUEUE_SIZE];
 		count = 0;
+		//ghostSlots = 0;//ghost slots are slots previously used but are empty
 	}
 
 ///////////////////////////////////////////////////////////////////
@@ -188,7 +240,9 @@ public class ArrayQueue {
 	public boolean isFull() {
 		//if count is equivalent to the length of the queue array, then the queue is full
 		//anything less and the queue is not full
-		return count == queue.length;
+		
+		return (count == queue.length);
+		//return ((count + ghostSlots) == queue.length);
 	}
 ///////////////////////////////////////////////////////////////////
 /// toString ///
@@ -229,6 +283,46 @@ public class ArrayQueue {
 			//return the string
 			return rtn;
 		}
+	}
+
+	public int[] getQueue() {
+		return queue;
+	}
+
+	public void setQueue(int[] queue) {
+		this.queue = queue;
+	}
+
+	public int getCount() {
+		return count;
+	}
+
+	public void setCount(int count) {
+		this.count = count;
+	}
+
+	public int getHead() {
+		return head;
+	}
+
+	public void setHead(int head) {
+		this.head = head;
+	}
+
+	public int getTail() {
+		return tail;
+	}
+
+	public void setTail(int tail) {
+		this.tail = tail;
+	}
+
+	public static int getQueueSize() {
+		return QUEUE_SIZE;
+	}
+
+	public static int getGrowthIncrement() {
+		return GROWTH_INCREMENT;
 	}
 		
 	
