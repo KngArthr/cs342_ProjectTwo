@@ -48,31 +48,27 @@ public class Driver {
 /// doStuff ///
 /// Input : None ///
 /// Output: None ///
-/// Initializes object, and calls methods in other classes to put the program together///
+/// Initializes object, and calls methods from other classes to put the program together///
 /// ///
 ///////////////////////////////////////////////////////////////////	
 
 	public void doStuff() {
 		
-		System.out.println("Welcome to the Sieve of Eratosthenes.");
-		
+		System.out.println("Welcome to the Sieve of Eratosthenes.");//welcome message
 		
 		UI userInterface = new UI();
 		User user = new User(userInterface.promptForNumber());
-		Sieve sieve = new Sieve(user.getMAX_NUMBER());
-		System.out.println("Number Bank: ");
-		System.out.println(sieve.getNumberBank());
+		Sieve sieve = new Sieve(user.getMAX_NUMBER());//creates all required object
 		
 		
-		sieve.sieveOfEratosthenes(user.getMAX_NUMBER());
 		
-		System.out.println("Number Bank: ");
+		
+		sieve.sieveOfEratosthenes(user.getMAX_NUMBER());//uses main sieve algorithm with user-provided max number
+		sieve.transferPrime();//transfer all prime numbers to the prime bank
 
-		System.out.println(sieve.getNumberBank());
 		
-		System.out.println("\nPrime numbers up to " + user.getMAX_NUMBER() + ": ");
-		sieve.transferPrime();
-		System.out.println(userInterface.displayArrayQueue(sieve.getPrimeBank()));
+		System.out.println("\nPrime numbers up to " + user.getMAX_NUMBER() + ": ");//output header
+		System.out.println(userInterface.displayArrayQueue(sieve.getPrimeBank()));//display prime numbers in required format
 
 	
 		

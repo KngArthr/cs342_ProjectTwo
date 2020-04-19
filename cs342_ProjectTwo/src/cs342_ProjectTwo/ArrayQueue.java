@@ -16,7 +16,6 @@ public class ArrayQueue {
 	private int count;
 	private int head;
 	private int tail;
-	//private int ghostSlots;
 	
 ///////////////////////////////////////////////////////////////////
 /// ArrayQueue ///
@@ -40,17 +39,22 @@ public class ArrayQueue {
 	public boolean add(int data) {
 		
 		if (isFull()) {
-			
-			//return false;
-			
+						
 			extend();
 		}
+		
 		//add data to the tail of the queue
 		queue[tail] = data;
 		tail++;//tail increments as the location of the tail has shifted
 		
 		
-		if (tail == queue.length) {//if the tail has hit the maximum of the queue, loop back around.
+		if ((tail == queue.length) && count + 1 < maxCapacity()) {
+			//if the tail has hit the maximum of the queue and the amount of data
+			//is not equal to the maximum capacity (which means we have space
+			// on the other side) loop back around.
+
+
+
 			tail = 0;
 		}
 		
@@ -68,20 +72,20 @@ public class ArrayQueue {
 	public void extend() {
 		
 		int[] temp = new int [queue.length + GROWTH_INCREMENT];
+		//initialize a new array with the original length plus the growth increment
 		
 		for(int i = 0; i < queue.length; i++) {
+			//transfer all data into temp array
 			temp[i] = queue[i];
-
 			
 		}
-		
-		
-		
+
+		//temp array becomes new queue with added slots
 		queue = temp;
 		
 		
 		
-		System.out.println("New queue size is: " + queue.length);
+		//System.out.println("New queue size is: " + queue.length);
 		//System.out.println(toString());
 		
 	}
@@ -113,7 +117,6 @@ public class ArrayQueue {
 		if (head == queue.length) {//if head has reached the limit then wrap back around
 			head = 0;
 		}
-		//ghostSlots++;
 		count--;//subtract one from count because one less data
 		
 		return rtn;//return the data that we eliminated
@@ -131,16 +134,18 @@ public class ArrayQueue {
 		int rtn = 0;
 		
 		if (count == 0 || slot >= count || slot < 0) {
+			//if the array is empty, or the slot requested is not within range or a negative slot number is given, return 
 			return -1;
 		} else {
 			
 			int n = head;
 			int c = count;
-			//go through the array starting form the head and ending at count
+			//go through the array starting from the head and ending at the required slot
 			while(slot > -1) {
 
-				///print the contents of each slot into a new line
+				///place the data into the return variable
 				rtn = queue[n];
+				//move through the array with n
 				n++;
 				//if we reach the end of the array then go back to the beginning of the array
 				//(queues can loop around sometimes)
@@ -148,6 +153,7 @@ public class ArrayQueue {
 					n = 0;
 				}
 				
+				//subtract from slot each time as we get closer to our desired slot
 				slot--;
 			}
 			
@@ -156,7 +162,7 @@ public class ArrayQueue {
 		
 		
 		
-		
+		//return the requested data
 		return rtn;
 	}
 
@@ -173,7 +179,6 @@ public class ArrayQueue {
 		//initialize a new queue with 0 data
 		queue = new int[QUEUE_SIZE];
 		count = 0;
-		//ghostSlots = 0;//ghost slots are slots previously used but are empty
 	}
 
 ///////////////////////////////////////////////////////////////////
@@ -191,7 +196,7 @@ public class ArrayQueue {
 /// maxCapacity ///
 /// Input : none///
 /// Output: returns length of queue as int///
-/// returns length of queue which is the maximum smount of data the queue can hold
+/// returns length of queue which is the maximum amount of data the queue can hold
 /// ///
 ///////////////////////////////////////////////////////////////////
 
@@ -230,6 +235,7 @@ public class ArrayQueue {
 		//if the count is not zero then the queue i not empty
 		return count == 0;
 	}
+	
 ///////////////////////////////////////////////////////////////////
 /// isFull ///
 /// Input : none///
@@ -242,8 +248,8 @@ public class ArrayQueue {
 		//anything less and the queue is not full
 		
 		return (count == queue.length);
-		//return ((count + ghostSlots) == queue.length);
 	}
+	
 ///////////////////////////////////////////////////////////////////
 /// toString ///
 /// Input : none///
@@ -284,6 +290,8 @@ public class ArrayQueue {
 			return rtn;
 		}
 	}
+	
+	//getters and setters
 
 	public int[] getQueue() {
 		return queue;

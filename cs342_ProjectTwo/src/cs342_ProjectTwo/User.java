@@ -9,7 +9,7 @@ package cs342_ProjectTwo;
 
 public class User {
 		
-	private final int MAX_NUMBER;
+	private final int MAX_NUMBER;//stores the users preferred max number
 
 	
 	
